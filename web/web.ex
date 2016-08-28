@@ -36,6 +36,7 @@ defmodule Steps.Web do
 
       import Steps.Router.Helpers
       import Steps.Gettext
+      import Steps.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -58,6 +59,8 @@ defmodule Steps.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      import Steps.Auth, only: [authenticate_user: 2]
     end
   end
 

@@ -1,0 +1,23 @@
+<h2>Show goal</h2>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @goal.user_id %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @goal.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @goal.description %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: goal_path(@conn, :edit, @goal) %>
+<%= link "Back", to: goal_path(@conn, :index) %>

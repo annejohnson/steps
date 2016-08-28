@@ -15,11 +15,17 @@ defmodule Steps.Router do
   end
 
   scope "/", Steps do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+  end
+
+  scope "/manage", Steps do
+    pipe_through [:browser, :authenticate_user]
+
+    resources "/goals", GoalController
   end
 
   # Other scopes may use custom stacks.
