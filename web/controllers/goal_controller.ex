@@ -3,18 +3,31 @@ defmodule Steps.GoalController do
 
   alias Steps.Goal
 
-  def index(conn, _params) do
-    goals = Repo.all(Goal)
+  def action(conn, _) do
+    apply(__MODULE__,
+          action_name(conn),
+          [conn, conn.params, conn.assigns.current_user])
+  end
+
+  def index(conn, _params, user) do
+    goals = Repo.all(user_goals(user))
     render(conn, "index.html", goals: goals)
   end
 
-  def new(conn, _params) do
-    changeset = Goal.changeset(%Goal{})
+  def new(conn, _params, user) do
+    changeset =
+      user
+      |> build_assoc(:goals)
+      |> Goal.changeset
+
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"goal" => goal_params}) do
-    changeset = Goal.changeset(%Goal{}, goal_params)
+  def create(conn, %{"goal" => goal_params}, user) do
+    changeset =
+      user
+      |> build_assoc(:goals)
+      |> Goal.changeset(goal_params)
 
     case Repo.insert(changeset) do
       {:ok, _goal} ->
@@ -26,19 +39,19 @@ defmodule Steps.GoalController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    goal = Repo.get!(Goal, id)
+  def show(conn, %{"id" => id}, user) do
+    goal = Repo.get!(user_goals(user), id)
     render(conn, "show.html", goal: goal)
   end
 
-  def edit(conn, %{"id" => id}) do
-    goal = Repo.get!(Goal, id)
+  def edit(conn, %{"id" => id}, user) do
+    goal = Repo.get!(user_goals(user), id)
     changeset = Goal.changeset(goal)
     render(conn, "edit.html", goal: goal, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "goal" => goal_params}) do
-    goal = Repo.get!(Goal, id)
+  def update(conn, %{"id" => id, "goal" => goal_params}, user) do
+    goal = Repo.get!(user_goals(user), id)
     changeset = Goal.changeset(goal, goal_params)
 
     case Repo.update(changeset) do
@@ -51,8 +64,8 @@ defmodule Steps.GoalController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    goal = Repo.get!(Goal, id)
+  def delete(conn, %{"id" => id}, user) do
+    goal = Repo.get!(user_goals(user), id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
@@ -61,5 +74,9 @@ defmodule Steps.GoalController do
     conn
     |> put_flash(:info, "Goal deleted successfully.")
     |> redirect(to: goal_path(conn, :index))
+  end
+
+  defp user_goals(user) do
+    assoc(user, :goals)
   end
 end
