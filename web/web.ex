@@ -22,7 +22,7 @@ defmodule Steps.Web do
 
       import Ecto
       import Ecto.Changeset
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
     end
   end
 
@@ -32,7 +32,7 @@ defmodule Steps.Web do
 
       alias Steps.Repo
       import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
 
       import Steps.Router.Helpers
       import Steps.Gettext
@@ -67,7 +67,7 @@ defmodule Steps.Web do
 
       alias Steps.Repo
       import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
       import Steps.Gettext
     end
   end

@@ -5,12 +5,15 @@
 # is restricted to this project.
 use Mix.Config
 
+# General application configuration
+config :steps,
+  ecto_repos: [Steps.Repo]
+
 # Configures the endpoint
 config :steps, Steps.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
-  secret_key_base: "P6YgVmL/1Ti0VhGyhi/Pq7RCmYpcZdGaISXHJREKfLarxbIEL3NTbpfEPe2WiOnH",
-  render_errors: [accepts: ~w(html json)],
+  secret_key_base: "ryfWyiA50K2HYPQLDi4k4LGitp4jGcCkt1v5581O+85Veyy8VgUOJ2MCrLOIKFWj",
+  render_errors: [view: Steps.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Steps.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
@@ -22,8 +25,3 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
-
-# Configure phoenix generators
-config :phoenix, :generators,
-  migration: true,
-  binary_id: false

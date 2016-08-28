@@ -2,7 +2,7 @@ defmodule Steps.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", Steps.RoomChannel
+  # channel "room:*", Steps.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
