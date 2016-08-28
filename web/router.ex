@@ -7,6 +7,7 @@ defmodule Steps.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Steps.Auth, repo: Steps.Repo
   end
 
   pipeline :api do
