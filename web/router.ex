@@ -16,6 +16,7 @@ defmodule Steps.Router do
   scope "/", Steps do
     pipe_through :browser # Use the default browser stack
 
+    get "/users", UserController, :index
     get "/", PageController, :index
   end
 
