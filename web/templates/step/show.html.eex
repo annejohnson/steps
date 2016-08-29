@@ -1,0 +1,23 @@
+<h2>Show step</h2>
+
+<ul>
+
+  <li>
+    <strong>Notes:</strong>
+    <%= @step.notes %>
+  </li>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @step.date %>
+  </li>
+
+  <li>
+    <strong>Goal:</strong>
+    <%= @step.goal_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: step_path(@conn, :edit, @step) %>
+<%= link "Back", to: step_path(@conn, :index) %>

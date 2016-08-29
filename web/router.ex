@@ -26,6 +26,7 @@ defmodule Steps.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/goals", GoalController
+    resources "/steps", StepController
   end
 
   # Other scopes may use custom stacks.

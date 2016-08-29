@@ -5,6 +5,7 @@ defmodule Steps.Goal do
     field :name, :string
     field :description, :string
     belongs_to :user, Steps.User
+    has_many :steps, Steps.Step
 
     timestamps
   end
@@ -15,6 +16,6 @@ defmodule Steps.Goal do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :description])
-    |> validate_required([:name, :description])
+    |> validate_required([:name])
   end
 end
