@@ -1,6 +1,6 @@
 <h2>Edit step</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: step_path(@conn, :update, @step) %>
+                        action: goal_step_path(@conn, :update, @goal, @step) %>
 
-<%= link "Back", to: step_path(@conn, :index) %>
+<%= link "Back", to: goal_step_path(@conn, :index, @goal) %>

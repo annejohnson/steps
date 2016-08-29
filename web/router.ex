@@ -25,8 +25,9 @@ defmodule Steps.Router do
   scope "/manage", Steps do
     pipe_through [:browser, :authenticate_user]
 
-    resources "/goals", GoalController
-    resources "/steps", StepController
+    resources "/goals", GoalController do
+      resources "/steps", StepController
+    end
   end
 
   # Other scopes may use custom stacks.

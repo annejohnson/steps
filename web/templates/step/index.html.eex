@@ -18,13 +18,13 @@
       <td><%= step.goal_id %></td>
 
       <td class="text-right">
-        <%= link "Show", to: step_path(@conn, :show, step), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: step_path(@conn, :edit, step), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: step_path(@conn, :delete, step), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show", to: goal_step_path(@conn, :show, @goal, step), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: goal_step_path(@conn, :edit, @goal, step), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: goal_step_path(@conn, :delete, @goal, step), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New step", to: step_path(@conn, :new) %>
+<%= link "New step", to: goal_step_path(@conn, :new, @goal) %>
