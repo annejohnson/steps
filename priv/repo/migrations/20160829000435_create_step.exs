@@ -12,5 +12,6 @@ defmodule Steps.Repo.Migrations.CreateStep do
 
     create index(:steps, [:goal_id])
     create index(:steps, [:date])
+    create unique_index(:steps, [:date, :goal_id])
   end
 end
