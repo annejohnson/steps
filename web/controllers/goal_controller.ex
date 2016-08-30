@@ -41,7 +41,9 @@ defmodule Steps.GoalController do
 
   def show(conn, %{"id" => id}, user) do
     goal = Repo.get!(user_goals(user), id)
-    render(conn, "show.html", goal: goal)
+    steps = Repo.all(assoc(goal, :steps))
+
+    render(conn, "show.html", goal: goal, steps: steps)
   end
 
   def edit(conn, %{"id" => id}, user) do

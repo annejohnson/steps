@@ -20,4 +20,4 @@
 </ul>
 
 <%= link "Edit", to: goal_step_path(@conn, :edit, @goal, @step) %>
-<%= link "Back", to: goal_step_path(@conn, :index, @goal) %>
+<%= link "Back", to: goal_path(@conn, :show, @goal) %>

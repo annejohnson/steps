@@ -11,11 +11,6 @@ defmodule Steps.StepController do
           [conn, conn.params, conn.assigns.goal])
   end
 
-  def index(conn, _params, goal) do
-    steps = Repo.all(goal_steps(goal))
-    render(conn, "index.html", steps: steps)
-  end
-
   def new(conn, _params, goal) do
     changeset =
       goal
@@ -35,7 +30,7 @@ defmodule Steps.StepController do
       {:ok, _step} ->
         conn
         |> put_flash(:info, "Step created successfully.")
-        |> redirect(to: goal_step_path(conn, :index, goal))
+        |> redirect(to: goal_path(conn, :show, goal))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -75,7 +70,7 @@ defmodule Steps.StepController do
 
     conn
     |> put_flash(:info, "Step deleted successfully.")
-    |> redirect(to: goal_step_path(conn, :index, goal))
+    |> redirect(to: goal_path(conn, :show, goal))
   end
 
   defp assign_goal(conn, _opts) do

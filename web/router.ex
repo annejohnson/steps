@@ -26,7 +26,7 @@ defmodule Steps.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/goals", GoalController do
-      resources "/steps", StepController
+      resources "/steps", StepController, except: [:index]
     end
   end
 
