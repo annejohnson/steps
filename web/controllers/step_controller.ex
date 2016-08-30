@@ -20,7 +20,7 @@ defmodule Steps.StepController do
     changeset =
       goal
       |> build_assoc(:steps)
-      |> Step.changeset
+      |> Step.changeset(new_step_defaults)
 
     render(conn, "new.html", changeset: changeset)
   end
@@ -97,5 +97,9 @@ defmodule Steps.StepController do
 
   defp goal_steps(goal) do
     assoc(goal, :steps)
+  end
+
+  defp new_step_defaults do
+    %{"date" => :calendar.universal_time}
   end
 end
