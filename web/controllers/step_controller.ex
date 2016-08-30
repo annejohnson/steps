@@ -96,7 +96,7 @@ defmodule Steps.StepController do
   end
 
   defp goal_steps(goal) do
-    assoc(goal, :steps)
+    from s in assoc(goal, :steps), order_by: [desc: s.date]
   end
 
   defp new_step_defaults do
