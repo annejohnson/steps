@@ -18,4 +18,9 @@ defmodule Steps.Step do
     |> validate_required([:date])
     |> unique_constraint(:date_goal_id, message: "Step already taken on this date.")
   end
+
+  def for_goal(goal) do
+    from s in assoc(goal, :steps),
+      order_by: [desc: s.date]
+  end
 end

@@ -1,7 +1,7 @@
 defmodule Steps.GoalController do
   use Steps.Web, :controller
 
-  alias Steps.Goal
+  alias Steps.{Goal, Step}
 
   def action(conn, _) do
     apply(__MODULE__,
@@ -10,7 +10,9 @@ defmodule Steps.GoalController do
   end
 
   def index(conn, _params, user) do
-    goals = Repo.all(user_goals(user))
+    goals = user
+            |> Goal.for_user(with_steps: 60)
+            |> Repo.all
     render(conn, "index.html", goals: goals)
   end
 
@@ -40,20 +42,26 @@ defmodule Steps.GoalController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    goal = Repo.get!(user_goals(user), id)
+    goal = user
+           |> Goal.for_user
+           |> Repo.get!(id)
     steps = Repo.all(assoc(goal, :steps))
 
     render(conn, "show.html", goal: goal, steps: steps)
   end
 
   def edit(conn, %{"id" => id}, user) do
-    goal = Repo.get!(user_goals(user), id)
+    goal = user
+           |> Goal.for_user
+           |> Repo.get!(id)
     changeset = Goal.changeset(goal)
     render(conn, "edit.html", goal: goal, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "goal" => goal_params}, user) do
-    goal = Repo.get!(user_goals(user), id)
+    goal = user
+           |> Goal.for_user
+           |> Repo.get!(id)
     changeset = Goal.changeset(goal, goal_params)
 
     case Repo.update(changeset) do
@@ -67,7 +75,9 @@ defmodule Steps.GoalController do
   end
 
   def delete(conn, %{"id" => id}, user) do
-    goal = Repo.get!(user_goals(user), id)
+    goal = user
+           |> Goal.for_user
+           |> Repo.get!(id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
@@ -76,9 +86,5 @@ defmodule Steps.GoalController do
     conn
     |> put_flash(:info, "Goal deleted successfully.")
     |> redirect(to: goal_path(conn, :index))
-  end
-
-  defp user_goals(user) do
-    assoc(user, :goals)
   end
 end

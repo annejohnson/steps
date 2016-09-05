@@ -1,7 +1,7 @@
 defmodule Steps.StepController do
   use Steps.Web, :controller
 
-  alias Steps.Step
+  alias Steps.{Goal, Step}
 
   plug :assign_goal
 
@@ -37,18 +37,24 @@ defmodule Steps.StepController do
   end
 
   def show(conn, %{"id" => id}, goal) do
-    step = Repo.get!(goal_steps(goal), id)
+    step = goal
+           |> Step.for_goal
+           |> Repo.get!(id)
     render(conn, "show.html", step: step)
   end
 
   def edit(conn, %{"id" => id}, goal) do
-    step = Repo.get!(goal_steps(goal), id)
+    step = goal
+           |> Step.for_goal
+           |> Repo.get!(id)
     changeset = Step.changeset(step)
     render(conn, "edit.html", step: step, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "step" => step_params}, goal) do
-    step = Repo.get!(goal_steps(goal), id)
+    step = goal
+           |> Step.for_goal
+           |> Repo.get!(id)
     changeset = Step.changeset(step, step_params)
 
     case Repo.update(changeset) do
@@ -62,7 +68,9 @@ defmodule Steps.StepController do
   end
 
   def delete(conn, %{"id" => id}, goal) do
-    step = Repo.get!(goal_steps(goal), id)
+    step = goal
+           |> Step.for_goal
+           |> Repo.get!(id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
@@ -78,20 +86,12 @@ defmodule Steps.StepController do
       %{"goal_id" => goal_id} ->
         goal =
           conn.assigns.current_user
-          |> user_goals
+          |> Goal.for_user
           |> Repo.get(goal_id)
         assign(conn, :goal, goal)
       _ ->
         conn
     end
-  end
-
-  defp user_goals(user) do
-    assoc(user, :goals)
-  end
-
-  defp goal_steps(goal) do
-    from s in assoc(goal, :steps), order_by: [desc: s.date]
   end
 
   defp new_step_defaults do
