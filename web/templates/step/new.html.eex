@@ -1,4 +1,4 @@
-<h2>New step</h2>
+<h1>Record New Step</h1>
 
 <%= render "form.html", changeset: @changeset,
                         action: goal_step_path(@conn, :create, @goal) %>

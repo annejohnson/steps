@@ -14,7 +14,8 @@
   <body>
     <div class="container">
       <header class="header">
-        <ol class="breadcrumb text-right">
+        <div class="logo"></div>
+        <ul class="session-info">
           <%= if @current_user do %>
             <li><%= @current_user.username %></li>
             <li>
@@ -26,8 +27,7 @@
             <li><%= link "Register", to: user_path(@conn, :new) %></li>
             <li><%= link "Log in", to: session_path(@conn, :new) %></li>
           <% end %>
-        </ol>
-        <span class="logo"></span>
+        </ul>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

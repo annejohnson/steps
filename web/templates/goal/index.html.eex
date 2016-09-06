@@ -1,9 +1,8 @@
-<h2>Listing goals</h2>
+<h1>Goals</h1>
 
-<table class="table">
+<table>
   <thead>
     <tr>
-      <th>User</th>
       <th>Name</th>
       <th>Description</th>
 
@@ -13,14 +12,13 @@
   <tbody>
     <%= for goal <- @goals do %>
       <tr>
-        <td><%= goal.user_id %></td>
         <td><%= goal.name %></td>
         <td><%= goal.description %></td>
 
-        <td class="text-right">
-          <%= link "Show", to: goal_path(@conn, :show, goal), class: "btn btn-default btn-xs" %>
-          <%= link "Edit", to: goal_path(@conn, :edit, goal), class: "btn btn-default btn-xs" %>
-          <%= link "Delete", to: goal_path(@conn, :delete, goal), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <td>
+          <%= link "Show", to: goal_path(@conn, :show, goal) %>
+          <%= link "Edit", to: goal_path(@conn, :edit, goal) %>
+          <%= link "Delete", to: goal_path(@conn, :delete, goal), method: :delete, data: [confirm: "Are you sure?"] %>
         </td>
       </tr>
     <% end %>

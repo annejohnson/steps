@@ -1,6 +1,6 @@
-<h2>Steps</h2>
+<h1>Steps</h1>
 
-<table class="table">
+<table>
   <thead>
     <tr>
       <th>Notes</th>
@@ -15,10 +15,10 @@
         <td><%= step.notes %></td>
         <td><%= step.date %></td>
 
-        <td class="text-right">
-          <%= link "Show", to: goal_step_path(@conn, :show, @goal, step), class: "btn btn-default btn-xs" %>
-          <%= link "Edit", to: goal_step_path(@conn, :edit, @goal, step), class: "btn btn-default btn-xs" %>
-          <%= link "Delete", to: goal_step_path(@conn, :delete, @goal, step), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <td>
+          <%= link "Show", to: goal_step_path(@conn, :show, @goal, step) %>
+          <%= link "Edit", to: goal_step_path(@conn, :edit, @goal, step) %>
+          <%= link "Delete", to: goal_step_path(@conn, :delete, @goal, step), method: :delete, data: [confirm: "Are you sure?"] %>
         </td>
       </tr>
     <% end %>

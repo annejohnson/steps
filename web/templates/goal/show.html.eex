@@ -1,23 +1,6 @@
-<h2>Show goal</h2>
+<h1><%= @goal.name %></h1>
 
-<ul>
-
-  <li>
-    <strong>User:</strong>
-    <%= @goal.user_id %>
-  </li>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @goal.name %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @goal.description %>
-  </li>
-
-</ul>
+<p><%= @goal.description %></p>
 
 <%= render "_steps.html", conn: @conn, goal: @goal, steps: @steps %>
 
