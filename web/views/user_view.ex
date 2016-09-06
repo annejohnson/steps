@@ -7,4 +7,6 @@ defmodule Steps.UserView do
     |> String.split(" ")
     |> Enum.at(0)
   end
+
+  def title(:new, _), do: "Sign Up"
 end
