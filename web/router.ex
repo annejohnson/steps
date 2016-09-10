@@ -22,7 +22,7 @@ defmodule Steps.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
-  scope "/manage", Steps do
+  scope "/", Steps do
     pipe_through [:browser, :authenticate_user]
 
     resources "/goals", GoalController do
