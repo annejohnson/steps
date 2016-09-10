@@ -3,11 +3,12 @@ $medium-screen: 600px;
 $large-screen: 900px;
 
 // Typography
-$base-font-family: $font-stack-system;
+@import 'https://fonts.googleapis.com/css?family=Work+Sans:400,600';
+$base-font-family: Work Sans;
 $heading-font-family: $base-font-family;
 
 // Font Sizes
-$base-font-size: 1em;
+$base-font-size: 1.3em;
 
 // Line height
 $base-line-height: 1.5;
@@ -20,14 +21,16 @@ $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
 
 // Colors
-$blue: #1565c0;
+$blue: #2989d8;
+$purple: #8e24aa;
+$teal: #00897b;
 $dark-gray: #333;
 $medium-gray: #999;
 $light-gray: #ddd;
 
 // Font Colors
 $base-font-color: $dark-gray;
-$action-color: $blue;
+$action-color: $teal;
 
 // Border
 $base-border-color: $light-gray;
