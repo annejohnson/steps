@@ -10,10 +10,11 @@ defmodule Steps.GoalController do
   end
 
   def index(conn, _params, user) do
-    goals = user
-            |> Goal.for_user(with_steps: 60)
-            |> Repo.all
-    render(conn, "index.html", goals: goals)
+    render(
+      conn,
+      "index.html",
+      goals_with_dates_and_steps: goals_with_dates_and_steps(user, days_ago: 20)
+    )
   end
 
   def new(conn, _params, user) do
@@ -46,8 +47,15 @@ defmodule Steps.GoalController do
            |> Goal.for_user
            |> Repo.get!(id)
     steps = Repo.all(assoc(goal, :steps))
+    dates_with_steps = dates_with_steps(dates(days_ago: 20), steps)
 
-    render(conn, "show.html", goal: goal, steps: steps)
+    render(
+      conn,
+      "show.html",
+      goal: goal,
+      steps: steps,
+      dates_with_steps: dates_with_steps
+    )
   end
 
   def edit(conn, %{"id" => id}, user) do
@@ -86,5 +94,33 @@ defmodule Steps.GoalController do
     conn
     |> put_flash(:info, "Goal deleted successfully.")
     |> redirect(to: goal_path(conn, :index))
+  end
+
+  defp dates(days_ago: days_ago) do
+    days_ago..0
+    |> Enum.map(&Chronos.days_ago/1)
+  end
+
+  defp goals_with_dates_and_steps(user, days_ago: days_ago) do
+    goals = user
+            |> Goal.for_user(with_steps: days_ago)
+            |> Repo.all
+    dates = dates(days_ago: days_ago)
+
+    Enum.map(goals, fn(goal) ->
+      {goal, dates_with_steps(dates, goal.steps)}
+    end)
+  end
+
+  defp dates_with_steps(dates, steps) do
+    Enum.map(dates, fn(date) ->
+      {date, step_for_date(steps, date)}
+    end)
+  end
+
+  defp step_for_date(steps, date) do
+    Enum.find(steps, fn(step) ->
+      step.date == Ecto.Date.cast!(date)
+    end)
   end
 end

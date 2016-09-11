@@ -15,7 +15,9 @@
     <div class="container">
       <header class="header">
         <div class="header-row">
-          <div class="logo">Steps</div>
+          <div class="logo">
+            <%= link "Steps", to: "/" %>
+          </div>
           <ul class="session-info">
             <%= if @current_user do %>
               <li><%= @current_user.username %></li>

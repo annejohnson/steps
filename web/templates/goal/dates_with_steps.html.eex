@@ -1,0 +1,6 @@
+<div class="goal-step-dates">
+  <%= for {{_y, _m, _d}, step} <- @dates_with_steps do %>
+    <div class="goal-step-date<%= if step, do: " goal-step-date-completed" %>">
+    </div>
+  <% end %>
+</div>

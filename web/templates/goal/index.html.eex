@@ -1,28 +1,31 @@
 <h1>Goals</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
+<%= for {goal, dates_with_steps} <- @goals_with_dates_and_steps do %>
+  <div class="goal">
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for goal <- @goals do %>
-      <tr>
-        <td><%= goal.name %></td>
-        <td><%= goal.description %></td>
+    <div class="goal-name">
+      <%= goal.name %>
+    </div>
 
-        <td>
-          <%= link "Show", to: goal_path(@conn, :show, goal) %>
-          <%= link "Edit", to: goal_path(@conn, :edit, goal) %>
-          <%= link "Delete", to: goal_path(@conn, :delete, goal), method: :delete, data: [confirm: "Are you sure?"] %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <div class="goal-description">
+      <%= goal.description %>
+    </div>
+
+    <%= render "dates_with_steps.html", dates_with_steps: dates_with_steps %>
+
+    <ul class="goal-action-items">
+      <li class="goal-action-item">
+        <%= link "Show", to: goal_path(@conn, :show, goal) %>
+      </li>
+      <li class="goal-action-item">
+        <%= link "Edit", to: goal_path(@conn, :edit, goal) %>
+      </li>
+      <li class="goal-action-item">
+        <%= link "Delete", to: goal_path(@conn, :delete, goal), method: :delete, data: [confirm: "Are you sure?"] %>
+      </li>
+    </ul>
+
+  </div>
+<% end %>
 
 <%= link "New goal", to: goal_path(@conn, :new) %>

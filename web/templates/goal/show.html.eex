@@ -2,6 +2,8 @@
 
 <p><%= @goal.description %></p>
 
+<%= render "dates_with_steps.html", dates_with_steps: @dates_with_steps %>
+
 <%= render "_steps.html", conn: @conn, goal: @goal, steps: @steps %>
 
 <%= link "Edit", to: goal_path(@conn, :edit, @goal) %>
