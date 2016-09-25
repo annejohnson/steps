@@ -1,6 +1,18 @@
 <div class="goal-step-dates">
-  <%= for {{_y, _m, _d}, step} <- @dates_with_steps do %>
-    <div class="goal-step-date<%= if step, do: " goal-step-date-completed" %>">
-    </div>
+  <%= for {_, step} <- @dates_with_steps do %>
+    <%= if step do %>
+      <a class="goal-step-date goal-step-date-completed"
+        tabindex="0"
+        data-container="body"
+        data-toggle="popover"
+        data-placement="bottom"
+        data-trigger="focus"
+        data-content="<%= step_short_summary(step) %>">
+      </a>
+    <% else %>
+      <div class="goal-step-date">
+      </div>
+    <% end %>
+
   <% end %>
 </div>

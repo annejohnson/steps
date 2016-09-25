@@ -9,4 +9,11 @@ defmodule Steps.GoalView do
   def goal_name(conn) do
     "#{conn.assigns[:goal].name}"
   end
+
+  def step_short_summary(step) do
+    [step.date, step.notes]
+    |> Enum.map(&to_string/1)
+    |> Enum.filter(&(String.length(&1) > 0))
+    |> Enum.join(": ")
+  end
 end

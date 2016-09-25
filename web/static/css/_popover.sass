@@ -1,0 +1,55 @@
+$popover-arrow-width: 1em
+$popover-arrow-height: $popover-arrow-width / 2
+$popover-margin-shift: $popover-arrow-width / 2
+
+$popover-margin: 0.8em
+
+.fade
+  opacity: 0
+  transition: opacity $base-duration $base-timing
+  &.in
+    opacity: 1
+
+.popover
+  background: $popover-background-color
+  color: $popover-text-color
+  border-radius: $base-border-radius
+  width: 16em
+  padding: 0.5em
+  font-size: 0.7em
+
+  &:after
+    content: " "
+    position: absolute
+
+  &.top
+    margin-top: -$popover-margin
+    &:after
+      top: 100%
+      left: 50%
+      margin-left: -$popover-margin-shift
+      +triangle(down, $popover-background-color, $popover-arrow-width, $popover-arrow-height)
+
+  &.bottom
+    margin-top: $popover-margin
+    &:after
+      bottom: 100%
+      left: 50%
+      margin-left: -$popover-margin-shift
+      +triangle(up, $popover-background-color, $popover-arrow-width, $popover-arrow-height)
+
+  &.right
+    margin-left: $popover-margin
+    &:after
+      top: 50%
+      right: 100%
+      margin-top: -$popover-margin-shift
+      +triangle(left, $popover-background-color, $popover-arrow-height, $popover-arrow-width)
+
+  &.left
+    margin-left: -$popover-margin
+    &:after
+      top: 50%
+      left: 100%
+      margin-top: -$popover-margin-shift
+      +triangle(right, $popover-background-color, $popover-arrow-height, $popover-arrow-width)

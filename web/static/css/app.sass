@@ -3,6 +3,7 @@
 @import "neat/neat"
 @import "base/base"
 @import "header"
+@import "popover"
 
 .main
   +outer_container
@@ -28,6 +29,10 @@
 .goal-step-date-completed
   background-color: $action-color
 
+.goal-step-date-completed,
+.goal-step-date-completed:focus
+  outline: none
+
 .goal
   border-bottom: 2px solid $base-border-color
   padding: 1em 0
@@ -39,4 +44,3 @@
 
 .goal-action-item
   margin-right: 1em
-
