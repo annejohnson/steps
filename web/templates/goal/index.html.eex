@@ -17,7 +17,7 @@
       <%= goal.description %>
     </div>
 
-    <%= render "dates_with_steps.html", dates_with_steps: dates_with_steps(goal, num_days_ago: @num_days_ago) %>
+    <%= render "dates_with_steps.html", dates_with_steps: dates_with_steps(goal) %>
 
     <ul class="goal-action-items">
       <li class="goal-action-item">

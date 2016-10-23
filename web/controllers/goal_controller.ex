@@ -3,8 +3,6 @@ defmodule Steps.GoalController do
 
   alias Steps.{Goal, Step}
 
-  @num_days_ago 20
-
   def action(conn, _) do
     apply(__MODULE__,
           action_name(conn),
@@ -14,15 +12,10 @@ defmodule Steps.GoalController do
   def index(conn, _params, user) do
     goals =
       user
-      |> Goal.for_user(with_steps_since_date: Chronos.days_ago(@num_days_ago))
+      |> Goal.for_user(with_steps: true)
       |> Repo.all
 
-    render(
-      conn,
-      "index.html",
-      goals: goals,
-      num_days_ago: @num_days_ago
-    )
+    render(conn, "index.html", goals: goals)
   end
 
   def new(conn, _params, user) do
@@ -55,12 +48,7 @@ defmodule Steps.GoalController do
            |> Goal.for_user(with_steps: true)
            |> Repo.get!(id)
 
-    render(
-      conn,
-      "show.html",
-      goal: goal,
-      num_days_ago: @num_days_ago
-    )
+    render(conn, "show.html", goal: goal)
   end
 
   def edit(conn, %{"id" => id}, user) do
