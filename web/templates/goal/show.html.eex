@@ -2,9 +2,9 @@
 
 <p><%= @goal.description %></p>
 
-<%= render "dates_with_steps.html", dates_with_steps: @dates_with_steps %>
+<%= render "dates_with_steps.html", dates_with_steps: dates_with_steps(@goal, num_days_ago: @num_days_ago) %>
 
-<%= render "_steps.html", conn: @conn, goal: @goal, steps: @steps %>
+<%= render "_steps.html", conn: @conn, goal: @goal, steps: @goal.steps %>
 
 <%= link "Edit", to: goal_path(@conn, :edit, @goal) %>
 <%= link "Delete", to: goal_path(@conn, :delete, @goal), method: :delete, data: [confirm: "Are you sure?"] %>

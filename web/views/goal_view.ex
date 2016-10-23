@@ -16,4 +16,22 @@ defmodule Steps.GoalView do
     |> Enum.filter(&(String.length(&1) > 0))
     |> Enum.join(": ")
   end
+
+  def dates_with_steps(goal, num_days_ago: num_days_ago) do
+    steps = goal.steps
+    Enum.map(dates(num_days_ago: num_days_ago), fn(date) ->
+      {date, step_for_date(steps, date)}
+    end)
+  end
+
+  defp dates(num_days_ago: num_days_ago) do
+    num_days_ago..0
+    |> Enum.map(&Chronos.days_ago/1)
+  end
+
+  defp step_for_date(steps, date) do
+    Enum.find(steps, fn(step) ->
+      step.date == Ecto.Date.cast!(date)
+    end)
+  end
 end

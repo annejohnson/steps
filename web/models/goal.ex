@@ -25,6 +25,10 @@ defmodule Steps.Goal do
     assoc(user, :goals)
   end
 
+  def for_user(user, with_steps: true) do
+    from g in for_user(user), preload: :steps
+  end
+
   def for_user(user, with_steps_since_date: since_date) do
     recent_step_query =
       from s in Step,
