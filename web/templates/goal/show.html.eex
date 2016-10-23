@@ -7,4 +7,5 @@
 <%= render "_steps.html", conn: @conn, goal: @goal, steps: @steps %>
 
 <%= link "Edit", to: goal_path(@conn, :edit, @goal) %>
+<%= link "Delete", to: goal_path(@conn, :delete, @goal), method: :delete, data: [confirm: "Are you sure?"] %>
 <%= link "Back", to: goal_path(@conn, :index) %>

@@ -1,4 +1,9 @@
-<h1>Steps</h1>
+<h1>
+  Steps
+  <small>
+    <%= link "Record Step", to: goal_step_path(@conn, :new, @goal) %>
+  </small>
+</h1>
 
 <table>
   <thead>
@@ -16,7 +21,6 @@
         <td><%= step.date %></td>
 
         <td>
-          <%= link "Show", to: goal_step_path(@conn, :show, @goal, step) %>
           <%= link "Edit", to: goal_step_path(@conn, :edit, @goal, step) %>
           <%= link "Delete", to: goal_step_path(@conn, :delete, @goal, step), method: :delete, data: [confirm: "Are you sure?"] %>
         </td>
@@ -24,5 +28,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link "New step", to: goal_step_path(@conn, :new, @goal) %>

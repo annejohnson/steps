@@ -1,6 +1,0 @@
-<h1>Step <%= @step.date %> for goal: <%= @goal.name %></h1>
-
-<p><%= @step.notes %></p>
-
-<%= link "Edit", to: goal_step_path(@conn, :edit, @goal, @step) %>
-<%= link "Back", to: goal_path(@conn, :show, @goal) %>

@@ -36,13 +36,6 @@ defmodule Steps.StepController do
     end
   end
 
-  def show(conn, %{"id" => id}, goal) do
-    step = goal
-           |> Step.for_goal
-           |> Repo.get!(id)
-    render(conn, "show.html", step: step)
-  end
-
   def edit(conn, %{"id" => id}, goal) do
     step = goal
            |> Step.for_goal
