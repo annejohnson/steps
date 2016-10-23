@@ -103,7 +103,7 @@ defmodule Steps.GoalController do
 
   defp goals_with_dates_and_steps(user, days_ago: days_ago) do
     goals = user
-            |> Goal.for_user(with_steps: days_ago)
+            |> Goal.for_user(with_steps_since_date: Chronos.days_ago(days_ago))
             |> Repo.all
     dates = dates(days_ago: days_ago)
 
