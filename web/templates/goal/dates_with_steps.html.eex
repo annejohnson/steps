@@ -1,5 +1,5 @@
 <div class="goal-step-dates">
-  <%= for {_, step} <- @dates_with_steps do %>
+  <%= for {_, step} <- dates_with_steps(@goal) do %>
     <%= if step do %>
       <a class="goal-step-date goal-step-date-completed"
         tabindex="0"
