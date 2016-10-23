@@ -33,10 +33,10 @@ defmodule Steps.GoalController do
       |> Goal.changeset(goal_params)
 
     case Repo.insert(changeset) do
-      {:ok, _goal} ->
+      {:ok, goal} ->
         conn
         |> put_flash(:info, "Goal created successfully.")
-        |> redirect(to: goal_path(conn, :index))
+        |> redirect(to: goal_path(conn, :show, goal))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -46,7 +46,7 @@ defmodule Steps.GoalController do
     goal = user
            |> Goal.for_user
            |> Repo.get!(id)
-    steps = Repo.all(assoc(goal, :steps))
+    steps = Repo.all(from s in assoc(goal, :steps), order_by: [desc: s.date])
     dates_with_steps = dates_with_steps(dates(days_ago: 20), steps)
 
     render(
