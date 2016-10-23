@@ -1,5 +1,5 @@
 defmodule Steps.GoalView do
-  @num_days_ago 20
+  @num_dates 14
 
   use Steps.Web, :view
 
@@ -21,7 +21,7 @@ defmodule Steps.GoalView do
 
   def dates_with_steps(goal) do
     steps = goal.steps
-    Enum.map(dates(num_days_ago: @num_days_ago), fn(date) ->
+    Enum.map(dates(num_days_ago: @num_dates - 1), fn(date) ->
       {date, step_for_date(steps, date)}
     end)
   end
