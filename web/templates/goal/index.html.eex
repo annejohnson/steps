@@ -1,16 +1,27 @@
-<h1>
-  Goals
-  <small>
-    <%= link "New goal", to: goal_path(@conn, :new) %>
-  </small>
-</h1>
+<div class="header-row">
+  <h1>
+    Goals
+  </h1>
+  <ul class="header-action-items">
+    <li class="header-action-item">
+      <%= link "New goal", to: goal_path(@conn, :new) %>
+    </li>
+  </ul>
+</div>
 
 
 <%= for goal <- @goals do %>
   <div class="goal">
 
-    <div class="goal-name">
-      <%= link goal.name, to: goal_path(@conn, :show, goal) %>
+    <div class="header-row">
+      <div class="goal-name">
+        <%= link goal.name, to: goal_path(@conn, :show, goal) %>
+      </div>
+      <ul class="header-action-items">
+        <li class="header-action-item">
+          <%= link "Record Step", to: goal_step_path(@conn, :new, goal) %>
+        </li>
+      </ul>
     </div>
 
     <div class="goal-description">
@@ -18,12 +29,6 @@
     </div>
 
     <%= render "dates_with_steps.html", goal: goal %>
-
-    <ul class="goal-action-items">
-      <li class="goal-action-item">
-        <%= link "Record Step", to: goal_step_path(@conn, :new, goal) %>
-      </li>
-    </ul>
 
   </div>
 <% end %>

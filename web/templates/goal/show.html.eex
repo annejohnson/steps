@@ -1,6 +1,17 @@
-<h1><%= @goal.name %></h1>
+<div class="header-row">
+  <h1>
+    <%= @goal.name %>
+  </h1>
+  <ul class="header-action-items">
+    <li class="header-action-item">
+      <%= link "Record Step", to: goal_step_path(@conn, :new, @goal) %>
+    </li>
+  </ul>
+</div>
 
-<p><%= @goal.description %></p>
+<div class="goal-description">
+  <%= @goal.description %>
+</div>
 
 <%= render "dates_with_steps.html", goal: @goal %>
 

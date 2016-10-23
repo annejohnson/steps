@@ -9,20 +9,21 @@
     &:hover
       color: $base-background-color
 
-  li, form
-    display: inline
-  li
-    margin-left: 1em
-
-.header-row
+.top-header-row
   max-width: $max-width
   margin-left: auto
   margin-right: auto
   padding: 0 1.3em
 
+.header-row
   +display(flex)
   +align-items(center)
   +justify-content(space-between)
+
+  li, form
+    display: inline
+  li
+    margin-left: 1em
 
 .logo
   font-size: 2em

@@ -1,8 +1,5 @@
 <h1>
-  Steps
-  <small>
-    <%= link "Record Step", to: goal_step_path(@conn, :new, @goal) %>
-  </small>
+  Step Log
 </h1>
 
 <table>
