@@ -1,6 +1,6 @@
 <h1>Edit goal</h1>
 
-<%= render "form.html", changeset: @changeset,
-                        action: goal_path(@conn, :update, @goal) %>
+<%= render "_form.html", changeset: @changeset,
+                         action: goal_path(@conn, :update, @goal) %>
 
 <%= link "Back", to: goal_path(@conn, :index) %>

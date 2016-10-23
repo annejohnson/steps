@@ -28,7 +28,7 @@
       <%= goal.description %>
     </div>
 
-    <%= render "dates_with_steps.html", goal: goal %>
+    <%= render "_dates_with_steps.html", goal: goal %>
 
   </div>
 <% end %>

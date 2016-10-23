@@ -13,7 +13,7 @@
   <%= @goal.description %>
 </div>
 
-<%= render "dates_with_steps.html", goal: @goal %>
+<%= render "_dates_with_steps.html", goal: @goal %>
 
 <%= render "_steps.html", conn: @conn, goal: @goal, steps: @goal.steps %>
 
