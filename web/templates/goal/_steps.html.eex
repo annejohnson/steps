@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <%= for step <- @steps do %>
+    <%= for step <- Enum.sort(@steps, &(&1.date >= &2.date)) do %>
       <tr>
         <td><%= step.notes %></td>
         <td><%= step.date %></td>
