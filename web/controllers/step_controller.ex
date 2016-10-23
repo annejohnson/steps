@@ -54,7 +54,7 @@ defmodule Steps.StepController do
       {:ok, step} ->
         conn
         |> put_flash(:info, "Step updated successfully.")
-        |> redirect(to: goal_step_path(conn, :show, goal, step))
+        |> redirect(to: goal_path(conn, :show, goal))
       {:error, changeset} ->
         render(conn, "edit.html", step: step, changeset: changeset)
     end
