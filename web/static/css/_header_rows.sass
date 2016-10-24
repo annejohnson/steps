@@ -1,7 +1,7 @@
-.header
+.top-header-container
   background-color: $action-color
   color: $base-background-color
-  padding: 1.3em 0
+  padding: $outer-container-padding 0
   margin-bottom: 2em
 
   a
@@ -11,9 +11,11 @@
 
 .top-header-row
   max-width: $max-width
-  margin-left: auto
-  margin-right: auto
-  padding: 0 1.3em
+  margin: 0 auto
+  padding: 0 $outer-container-padding
+
+.logo
+  font-size: 2em
 
 .header-row
   +display(flex)
@@ -24,6 +26,3 @@
     display: inline
   li
     margin-left: 1em
-
-.logo
-  font-size: 2em

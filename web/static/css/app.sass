@@ -3,52 +3,17 @@
 @import "bourbon/bourbon"
 @import "neat/neat"
 @import "base/base"
-@import "header"
+
+$outer-container-padding: 1.2em
+
+@import "header_rows"
+@import "goal_step_dates"
 
 .main, .alert
   +outer_container
-  padding: 0 1.3em
+  padding: 0 $outer-container-padding
 
-.goal-name
-  font-size: 1.1em
-  font-weight: bold
-  margin-bottom: 0.5em
-
-.goal-step-dates
-  margin-bottom: 0.8em
-  +display(flex)
-  +justify-content(space-between)
-  +flex-flow(row wrap)
-
-.goal-step-date
-  border: 2px solid $action-color
-  border-radius: $base-border-radius
-  cursor: pointer
-  margin: 0.2em 0
-
-  +flex-basis(13%)
-  height: 2em
-
-  +media(800px)
-    +flex-basis(6%)
-    height: 3em
-
-
-.goal-step-date-completed
-  background-color: $action-color
-
-.goal-step-date-completed,
-.goal-step-date-completed:focus
-  outline: none
-
-.goal
+.goal-index-item
   border-bottom: 2px solid $base-border-color
   padding: 1em 0
   margin-bottom: 1em
-
-.goal-action-items
-  li, form
-    display: inline
-
-.goal-action-item
-  margin-right: 1em

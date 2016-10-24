@@ -11,12 +11,12 @@
 
 
 <%= for goal <- @goals do %>
-  <div class="goal">
+  <div class="goal-index-item">
 
     <div class="header-row">
-      <div class="goal-name">
+      <h1 class="goal-name">
         <%= link goal.name, to: goal_path(@conn, :show, goal) %>
-      </div>
+      </h1>
       <ul class="header-action-items">
         <li class="header-action-item new new-step">
           <%= link "Record Step", to: goal_step_path(@conn, :new, goal) %>

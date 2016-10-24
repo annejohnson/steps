@@ -16,7 +16,7 @@
 
   <body>
     <div class="container">
-      <header class="header">
+      <header class="top-header-container">
         <div class="top-header-row header-row">
           <div class="logo">
             <%= link "Steps", to: "/" %>
