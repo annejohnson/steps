@@ -13,10 +13,23 @@ defmodule Steps.GoalView do
   end
 
   def step_short_summary(step) do
-    [step.date, step.notes]
+    [short_formatted_date(step.date), step.notes]
     |> Enum.map(&to_string/1)
     |> Enum.filter(&(String.length(&1) > 0))
     |> Enum.join(": ")
+  end
+
+  def short_formatted_date(ecto_date) do
+    date_tuple = {_, m, _} = Ecto.Date.to_erl(ecto_date)
+
+    # Add dot after month abbreviation (%b) for non-May
+    format_str = if m == 5, do: "%b %d, %Y", else: "%b. %d, %Y"
+
+    Chronos.Formatter.strftime(date_tuple, format_str)
+  end
+
+  def formatted_date(ecto_date) do
+    Chronos.Formatter.strftime(Ecto.Date.to_erl(ecto_date), "%B %d, %Y")
   end
 
   def dates_with_steps(goal) do

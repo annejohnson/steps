@@ -15,7 +15,7 @@
     <div class="steps-list-item">
       <div class="header-row">
         <h3 class="steps-list-item-date">
-          <%= step.date %>
+          <%= formatted_date(step.date) %>
         </h3>
 
         <ul class="header-action-items">
