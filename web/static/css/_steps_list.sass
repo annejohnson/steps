@@ -1,0 +1,30 @@
+.steps-list
+  margin-top: 2em
+  border-radius: $base-border-radius
+  background-color: lighten(desaturate($action-color, 70%), 65%)
+  box-shadow: 5px 5px 0 lighten(desaturate($action-color, 70%), 55%)
+  padding: 1em
+  margin-bottom: 2em
+
+.steps-list-header-row
+  border-style: solid
+  border-width: 0 0 2px 0
+  border-color: lighten(desaturate($action-color, 70%), 20%)
+  padding-bottom: 0.8em
+
+.steps-list-item
+  margin: 0.5em 0
+  padding: 0.5em 0
+
+  border-style: solid
+  border-width: 0 0 1px 0
+  border-color: lighten(desaturate($action-color, 70%), 40%)
+  &:last-child
+    border-width: 0
+    margin-bottom: 0
+
+  .header-row
+    margin-bottom: 0.5em
+
+.steps-list-item-date
+  font-size: 1em
