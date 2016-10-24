@@ -14,9 +14,9 @@
   <div class="goal-index-item">
 
     <div class="header-row">
-      <h1 class="goal-name">
+      <h2 class="goal-name">
         <%= link goal.name, to: goal_path(@conn, :show, goal) %>
-      </h1>
+      </h2>
       <ul class="header-action-items">
         <li class="header-action-item new new-step">
           <%= link "Record Step", to: goal_step_path(@conn, :new, goal) %>

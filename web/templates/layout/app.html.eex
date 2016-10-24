@@ -18,9 +18,9 @@
     <div class="container">
       <header class="top-header-container">
         <div class="top-header-row header-row">
-          <div class="logo">
+          <h1 class="logo">
             <%= link "Steps", to: "/" %>
-          </div>
+          </h1>
           <ul class="session-info">
             <%= if @current_user do %>
               <li><%= @current_user.username %></li>

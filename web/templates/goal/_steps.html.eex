@@ -1,11 +1,22 @@
 <div class="steps-list">
+  <div class="header-row">
+    <h2>
+      Step Log
+    </h2>
+    <ul class="header-action-items">
+      <li class="header-action-item new new-step">
+        <%= link "Record Step", to: goal_step_path(@conn, :new, @goal) %>
+      </li>
+    </ul>
+  </div>
+
   <%= for step <- Enum.sort(@steps, &(&1.date >= &2.date)) do %>
 
     <div class="steps-list-item">
       <div class="header-row">
-        <h1>
+        <h3 class="steps-list-item-date">
           <%= step.date %>
-        </h1>
+        </h3>
 
         <ul class="header-action-items">
           <li class="header-action-item edit edit-step">

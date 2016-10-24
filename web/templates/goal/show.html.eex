@@ -20,16 +20,4 @@
 
 <%= render "_dates_with_steps.html", goal: @goal %>
 
-<div class="header-row">
-  <h1>
-    Step Log
-  </h1>
-  <ul class="header-action-items">
-    <li class="header-action-item new new-step">
-      <%= link "Record Step", to: goal_step_path(@conn, :new, @goal) %>
-    </li>
-  </ul>
-</div>
-
-
 <%= render "_steps.html", conn: @conn, goal: @goal, steps: @goal.steps %>
