@@ -39,6 +39,15 @@ defmodule Steps.GoalView do
     end)
   end
 
+  def sort_steps_by_date_desc(steps) do
+    Enum.sort(
+      steps,
+      fn(%{date: date1}, %{date: date2}) ->
+        Enum.member?([:eq, :gt], Ecto.Date.compare(date1, date2))
+      end
+    )
+  end
+
   defp dates(num_days_ago: num_days_ago) do
     num_days_ago..0
     |> Enum.map(&Chronos.days_ago/1)

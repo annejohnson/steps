@@ -10,7 +10,7 @@
     </ul>
   </div>
 
-  <%= for step <- Enum.sort(@steps, &(&1.date >= &2.date)) do %>
+  <%= for step <- sort_steps_by_date_desc(@steps) do %>
 
     <div class="steps-list-item">
       <div class="header-row">
