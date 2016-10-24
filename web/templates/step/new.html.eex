@@ -1,6 +1,6 @@
+<%= Steps.SharedView.back_link(goal_path(@conn, :show, @goal)) %>
+
 <h1>Record New Step</h1>
 
 <%= render "_form.html", changeset: @changeset,
                          action: goal_step_path(@conn, :create, @goal) %>
-
-<%= link "Back", to: goal_path(@conn, :show, @goal) %>

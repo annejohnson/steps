@@ -3,7 +3,7 @@
     Goals
   </h1>
   <ul class="header-action-items">
-    <li class="header-action-item">
+    <li class="header-action-item new new-goal">
       <%= link "New goal", to: goal_path(@conn, :new) %>
     </li>
   </ul>
@@ -18,14 +18,10 @@
         <%= link goal.name, to: goal_path(@conn, :show, goal) %>
       </div>
       <ul class="header-action-items">
-        <li class="header-action-item">
+        <li class="header-action-item new new-step">
           <%= link "Record Step", to: goal_step_path(@conn, :new, goal) %>
         </li>
       </ul>
-    </div>
-
-    <div class="goal-description">
-      <%= goal.description %>
     </div>
 
     <%= render "_dates_with_steps.html", goal: goal %>

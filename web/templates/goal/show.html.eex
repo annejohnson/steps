@@ -1,10 +1,15 @@
+<%= Steps.SharedView.back_link(goal_path(@conn, :index)) %>
+
 <div class="header-row">
   <h1>
     <%= @goal.name %>
   </h1>
   <ul class="header-action-items">
-    <li class="header-action-item">
-      <%= link "Record Step", to: goal_step_path(@conn, :new, @goal) %>
+    <li class="header-action-item edit edit-goal">
+      <%= link "Edit", to: goal_path(@conn, :edit, @goal) %>
+    </li>
+    <li class="header-action-item delete delete-goal">
+      <%= link "Delete", to: goal_path(@conn, :delete, @goal), method: :delete, data: [confirm: "Are you sure?"] %>
     </li>
   </ul>
 </div>
@@ -15,8 +20,16 @@
 
 <%= render "_dates_with_steps.html", goal: @goal %>
 
-<%= render "_steps.html", conn: @conn, goal: @goal, steps: @goal.steps %>
+<div class="header-row">
+  <h1>
+    Step Log
+  </h1>
+  <ul class="header-action-items">
+    <li class="header-action-item new new-step">
+      <%= link "Record Step", to: goal_step_path(@conn, :new, @goal) %>
+    </li>
+  </ul>
+</div>
 
-<%= link "Edit", to: goal_path(@conn, :edit, @goal) %>
-<%= link "Delete", to: goal_path(@conn, :delete, @goal), method: :delete, data: [confirm: "Are you sure?"] %>
-<%= link "Back", to: goal_path(@conn, :index) %>
+
+<%= render "_steps.html", conn: @conn, goal: @goal, steps: @goal.steps %>
