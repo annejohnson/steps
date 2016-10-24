@@ -10,11 +10,11 @@
     </ul>
   </div>
 
-  <%= if Enum.empty?(@steps) do %>
+  <%= if Enum.empty?(@goal.steps) do %>
     No steps recorded yet.
   <% end %>
 
-  <%= for step <- sort_steps_by_date_desc(@steps) do %>
+  <%= for step <- sort_steps_by_date_desc(@goal.steps) do %>
 
     <div class="steps-list-item">
       <div class="header-row">
