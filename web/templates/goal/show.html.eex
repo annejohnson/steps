@@ -18,6 +18,6 @@
   <%= @goal.description %>
 </div>
 
-<%= render "_dates_with_goal_steps.html", goal: @goal %>
+<%= Steps.StepView.render "_dates_with_goal_steps.html", goal: @goal %>
 
-<%= render "_goal_steps.html", conn: @conn, goal: @goal %>
+<%= Steps.StepView.render "_goal_steps.html", conn: @conn, goal: @goal %>
