@@ -1,23 +1,27 @@
-<table>
-  <thead>
-    <tr>
-      <th>Notes</th>
-      <th>Date</th>
+<div class="steps-list">
+  <%= for step <- Enum.sort(@steps, &(&1.date >= &2.date)) do %>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for step <- Enum.sort(@steps, &(&1.date >= &2.date)) do %>
-      <tr>
-        <td><%= step.notes %></td>
-        <td><%= step.date %></td>
+    <div class="steps-list-item">
+      <div class="header-row">
+        <h1>
+          <%= step.date %>
+        </h1>
 
-        <td>
-          <%= link "Edit", to: goal_step_path(@conn, :edit, @goal, step) %>
-          <%= link "Delete", to: goal_step_path(@conn, :delete, @goal, step), method: :delete, data: [confirm: "Are you sure?"] %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        <ul class="header-action-items">
+          <li class="header-action-item edit edit-step">
+            <%= link "Edit", to: goal_step_path(@conn, :edit, @goal, step) %>
+          </li>
+          <li class="header-action-item delete delete-step">
+            <%= link "Delete", to: goal_step_path(@conn, :delete, @goal, step), method: :delete, data: [confirm: "Are you sure?"] %>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="step-notes">
+        <%= step.notes %>
+      </div>
+    </div>
+
+  <% end %>
+</div>
