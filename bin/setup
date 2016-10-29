@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+docker-compose up -d
+docker-compose run web mix deps.get
+docker-compose run web mix ecto.create
+docker-compose run web mix ecto.migrate
+docker-compose restart web
