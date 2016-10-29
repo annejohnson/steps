@@ -26,6 +26,7 @@ defmodule Steps.ConnCase do
       import Ecto.Query
 
       import Steps.Router.Helpers
+      import Steps.TestHelpers
 
       # The default endpoint for testing
       @endpoint Steps.Endpoint
