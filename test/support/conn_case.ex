@@ -14,6 +14,7 @@ defmodule Steps.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Steps.TestHelpers
 
   using do
     quote do
@@ -40,6 +41,14 @@ defmodule Steps.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(Steps.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    conn = Phoenix.ConnTest.build_conn()
+
+    if username = tags[:login_as] do
+      user = TestHelpers.insert_user(username: username)
+      conn = Plug.Conn.assign(conn, :current_user, user)
+      {:ok, conn: conn, user: user}
+    else
+      {:ok, conn: conn}
+    end
   end
 end
