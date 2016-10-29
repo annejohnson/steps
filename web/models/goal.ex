@@ -1,13 +1,13 @@
 defmodule Steps.Goal do
   use Steps.Web, :model
 
-  alias Steps.Step
+  alias Steps.{User, Step}
 
   schema "goals" do
     field :name, :string
     field :description, :string
-    belongs_to :user, Steps.User
-    has_many :steps, Steps.Step
+    belongs_to :user, User
+    has_many :steps, Step
 
     timestamps
   end

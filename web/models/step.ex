@@ -1,10 +1,11 @@
 defmodule Steps.Step do
   use Steps.Web, :model
+  alias Steps.Goal
 
   schema "steps" do
     field :notes, :string
     field :date, Ecto.Date
-    belongs_to :goal, Steps.Goal
+    belongs_to :goal, Goal
 
     timestamps
   end

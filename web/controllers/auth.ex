@@ -3,6 +3,7 @@ defmodule Steps.Auth do
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Phoenix.Controller
   alias Steps.Router.Helpers
+  alias Steps.User
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)
@@ -10,7 +11,7 @@ defmodule Steps.Auth do
 
   def call(conn, repo) do
     user_id = get_session(conn, :user_id)
-    user = user_id && repo.get(Steps.User, user_id)
+    user = user_id && repo.get(User, user_id)
     assign(conn, :current_user, user)
   end
 
@@ -23,7 +24,7 @@ defmodule Steps.Auth do
 
   def login_by_username_and_pass(conn, username, given_pass, opts) do
     repo = Keyword.fetch!(opts, :repo)
-    user = repo.get_by(Steps.User, username: username)
+    user = repo.get_by(User, username: username)
 
     cond do
       user && checkpw(given_pass, user.password_hash) ->

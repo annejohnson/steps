@@ -1,12 +1,13 @@
 defmodule Steps.User do
   use Steps.Web, :model
+  alias Steps.Goal
 
   schema "users" do
     field :name, :string
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
-    has_many :goals, Steps.Goal
+    has_many :goals, Goal
 
     timestamps
   end

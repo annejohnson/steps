@@ -1,7 +1,7 @@
 defmodule Steps.GoalController do
   use Steps.Web, :controller
 
-  alias Steps.{Goal, Step}
+  alias Steps.Goal
 
   def action(conn, _) do
     apply(__MODULE__,

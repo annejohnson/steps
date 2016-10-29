@@ -1,6 +1,6 @@
 defmodule Steps.UserController do
   use Steps.Web, :controller
-  alias Steps.User
+  alias Steps.{Auth, User}
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -12,7 +12,7 @@ defmodule Steps.UserController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
-        |> Steps.Auth.login(user)
+        |> Auth.login(user)
         |> put_flash(:info, "Welcome, #{user.name}!")
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->

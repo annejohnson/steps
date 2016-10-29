@@ -51,7 +51,7 @@ defmodule Steps.StepController do
     changeset = Step.changeset(step, step_params)
 
     case Repo.update(changeset) do
-      {:ok, step} ->
+      {:ok, _step} ->
         conn
         |> put_flash(:info, "Step updated successfully.")
         |> redirect(to: goal_path(conn, :show, goal))
