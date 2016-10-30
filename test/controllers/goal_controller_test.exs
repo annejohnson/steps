@@ -1,5 +1,6 @@
 defmodule Steps.GoalControllerTest do
   use Steps.ConnCase
+  alias Plug.Conn
   alias Steps.Goal
 
   @valid_attrs %{name: "Write a novel",
@@ -55,6 +56,28 @@ defmodule Steps.GoalControllerTest do
     conn = post conn, goal_path(conn, :create), goal: @invalid_attrs
     assert html_response(conn, 200) =~ "check the errors"
     assert goal_count(Goal) == count_before
+  end
+
+  @tag login_as: "anne"
+  test "authorizes actions against access by other users",
+       %{conn: conn, user: owner} do
+
+    goal = insert_goal(owner, @valid_attrs)
+    non_owner = insert_user(username: "sneaky")
+    conn = Conn.assign(conn, :current_user, non_owner)
+
+    assert_error_sent :not_found, fn ->
+      get(conn, goal_path(conn, :show, goal))
+    end
+    assert_error_sent :not_found, fn ->
+      get(conn, goal_path(conn, :edit, goal))
+    end
+    assert_error_sent :not_found, fn ->
+      put(conn, goal_path(conn, :update, goal, goal: @valid_attrs))
+    end
+    assert_error_sent :not_found, fn ->
+      delete(conn, goal_path(conn, :delete, goal))
+    end
   end
 
   defp goal_count(query), do: Repo.one(from g in query, select: count(g.id))
