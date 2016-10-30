@@ -29,18 +29,18 @@ defmodule Steps.Auth do
     |> configure_session(renew: true)
   end
 
-  def login_by_username_and_pass(conn, username, given_pass, opts) do
+  def check_username_and_pass(username, given_pass, opts) do
     repo = Keyword.fetch!(opts, :repo)
     user = repo.get_by(User, username: username)
 
     cond do
       user && checkpw(given_pass, user.password_hash) ->
-        {:ok, login(conn, user)}
+        {:ok, user}
       user ->
-        {:error, :unauthorized, conn}
+        {:error, :unauthorized}
       true ->
         dummy_checkpw
-        {:error, :not_found, conn}
+        {:error, :not_found}
     end
   end
 
