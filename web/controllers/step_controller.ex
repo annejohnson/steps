@@ -80,7 +80,7 @@ defmodule Steps.StepController do
         goal =
           conn.assigns.current_user
           |> Goal.for_user
-          |> Repo.get(goal_id)
+          |> Repo.get!(goal_id)
         assign(conn, :goal, goal)
       _ ->
         conn
