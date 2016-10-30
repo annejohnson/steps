@@ -14,22 +14,26 @@ defmodule Steps.ModelCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Ecto.Changeset
+  alias Steps.ErrorHelpers
+
   using do
     quote do
       alias Steps.Repo
 
       import Ecto
-      import Ecto.Changeset
+      import Changeset
       import Ecto.Query
       import Steps.ModelCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Steps.Repo)
+    :ok = Sandbox.checkout(Steps.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Steps.Repo, {:shared, self()})
+      Sandbox.mode(Steps.Repo, {:shared, self()})
     end
 
     :ok
@@ -48,7 +52,10 @@ defmodule Steps.ModelCase do
 
   You could then write your assertion like:
 
-      assert {:password, "is unsafe"} in errors_on(%User{}, %{password: "password"})
+      assert {:password, "is unsafe"} in errors_on(
+        %User{},
+        %{password: "password"}
+      )
 
   You can also create the changeset manually and retrieve the errors
   field directly:
@@ -58,8 +65,9 @@ defmodule Steps.ModelCase do
       true
   """
   def errors_on(struct, data) do
-    struct.__struct__.changeset(struct, data)
-    |> Ecto.Changeset.traverse_errors(&Steps.ErrorHelpers.translate_error/1)
+    struct
+    |> struct.__struct__.changeset(data)
+    |> Changeset.traverse_errors(&ErrorHelpers.translate_error/1)
     |> Enum.flat_map(fn {key, errors} -> for msg <- errors, do: {key, msg} end)
   end
 end

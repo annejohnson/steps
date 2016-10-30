@@ -14,12 +14,15 @@ defmodule Steps.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Phoenix.ConnTest
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Plug.Conn
   alias Steps.TestHelpers
 
   using do
     quote do
       # Import conveniences for testing with connections
-      use Phoenix.ConnTest
+      use ConnTest
 
       alias Steps.Repo
       import Ecto
@@ -35,17 +38,17 @@ defmodule Steps.ConnCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Steps.Repo)
+    :ok = Sandbox.checkout(Steps.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Steps.Repo, {:shared, self()})
+      Sandbox.mode(Steps.Repo, {:shared, self()})
     end
 
-    conn = Phoenix.ConnTest.build_conn()
+    conn = ConnTest.build_conn()
 
     if username = tags[:login_as] do
       user = TestHelpers.insert_user(username: username)
-      conn = Plug.Conn.assign(conn, :current_user, user)
+      conn = Conn.assign(conn, :current_user, user)
       {:ok, conn: conn, user: user}
     else
       {:ok, conn: conn}

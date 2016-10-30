@@ -2,7 +2,8 @@ defmodule Steps.GoalControllerTest do
   use Steps.ConnCase
   alias Steps.Goal
 
-  @valid_attrs %{name: "Write a novel", description: "Complete by the end of October."}
+  @valid_attrs %{name: "Write a novel",
+                 description: "Complete by the end of October."}
   @invalid_attrs %{name: ""}
 
   test "requires user authentication on all actions", %{conn: conn} do
@@ -24,7 +25,10 @@ defmodule Steps.GoalControllerTest do
   test "lists all user's goals on index", %{conn: conn, user: user} do
     user_goal_a = insert_goal(user, name: "Complete Phoenix app")
     user_goal_b = insert_goal(user, name: "Do a split")
-    other_goal = insert_goal(insert_user(username: "max"), name: "Study for exam")
+    other_goal = insert_goal(
+      insert_user(username: "max"),
+      name: "Study for exam"
+    )
 
     conn = get conn, goal_path(conn, :index)
     assert html_response(conn, 200)
@@ -45,7 +49,8 @@ defmodule Steps.GoalControllerTest do
   end
 
   @tag login_as: "anne"
-  test "does not create a goal and renders errors when invalid", %{conn: conn} do
+  test "does not create a goal and renders errors when invalid",
+       %{conn: conn} do
     count_before = goal_count(Goal)
     conn = post conn, goal_path(conn, :create), goal: @invalid_attrs
     assert html_response(conn, 200) =~ "check the errors"
