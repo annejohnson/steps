@@ -13,8 +13,7 @@ defmodule Steps.Router do
   end
 
   pipeline :browser_user_authenticated do
-    plug Guardian.Plug.EnsureAuthenticated,
-         %{on_failure: {Steps.SessionController, :new}}
+    plug Guardian.Plug.EnsureAuthenticated, handler: Steps.Auth
   end
 
   pipeline :api do

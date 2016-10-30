@@ -1,6 +1,6 @@
 defmodule Steps.UserController do
   use Steps.Web, :controller
-  alias Steps.{Auth, User}
+  alias Steps.User
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})

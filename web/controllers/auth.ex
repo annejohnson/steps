@@ -2,35 +2,12 @@ defmodule Steps.Auth do
   import Plug.Conn
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Phoenix.Controller
+
   alias Steps.Router.Helpers
   alias Steps.User
 
   def current_user(conn) do
     Guardian.Plug.current_resource(conn)
-  end
-
-  def init(opts) do
-    Keyword.fetch!(opts, :repo)
-  end
-
-  def call(conn, repo) do
-    user_id = get_session(conn, :user_id)
-
-    cond do
-      conn.assigns[:current_user] ->
-        conn
-      user = user_id && repo.get(User, user_id) ->
-        assign(conn, :current_user, user)
-      true ->
-        assign(conn, :current_user, nil)
-    end
-  end
-
-  def login(conn, user) do
-    conn
-    |> assign(:current_user, user)
-    |> put_session(:user_id, user.id)
-    |> configure_session(renew: true)
   end
 
   def check_username_and_pass(username, given_pass, opts) do
@@ -48,18 +25,10 @@ defmodule Steps.Auth do
     end
   end
 
-  def authenticate_user(conn, _opts) do
-    if conn.assigns.current_user do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: Helpers.page_path(conn, :index))
-      |> halt
-    end
-  end
-
-  def logout(conn) do
-    configure_session(conn, drop: true)
+  def unauthenticated(conn, _opts) do
+    conn
+    |> put_flash(:error, "You must be logged in to access that page")
+    |> redirect(to: Helpers.page_path(conn, :index))
+    |> halt
   end
 end
