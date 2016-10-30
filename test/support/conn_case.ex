@@ -14,10 +14,17 @@ defmodule Steps.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+
   alias Phoenix.ConnTest
   alias Ecto.Adapters.SQL.Sandbox
   alias Plug.Conn
-  alias Steps.TestHelpers
+  alias Guardian.Plug, as: GuardianPlug
+  alias Steps.{TestHelpers, Repo, Router}
+
+  require Phoenix.ConnTest
+
+  # The default endpoint for testing
+  @endpoint Steps.Endpoint
 
   using do
     quote do
@@ -38,17 +45,24 @@ defmodule Steps.ConnCase do
   end
 
   setup tags do
-    :ok = Sandbox.checkout(Steps.Repo)
+    :ok = Sandbox.checkout(Repo)
 
     unless tags[:async] do
-      Sandbox.mode(Steps.Repo, {:shared, self()})
+      Sandbox.mode(Repo, {:shared, self()})
     end
 
     conn = ConnTest.build_conn()
 
     if username = tags[:login_as] do
       user = TestHelpers.insert_user(username: username)
-      conn = Conn.assign(conn, :current_user, user)
+      conn =
+        conn
+        |> ConnTest.bypass_through(Router, [:browser])
+        |> ConnTest.get("/")
+        |> GuardianPlug.sign_in(user, :token)
+        |> Conn.send_resp(200, "Flush the session")
+        |> ConnTest.recycle
+
       {:ok, conn: conn, user: user}
     else
       {:ok, conn: conn}

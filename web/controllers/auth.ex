@@ -5,9 +5,10 @@ defmodule Steps.Auth do
 
   alias Steps.Router.Helpers
   alias Steps.User
+  alias Guardian.Plug, as: GuardianPlug
 
   def current_user(conn) do
-    Guardian.Plug.current_resource(conn)
+    GuardianPlug.current_resource(conn)
   end
 
   def check_username_and_pass(username, given_pass, opts) do

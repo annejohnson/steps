@@ -78,7 +78,8 @@ defmodule Steps.StepController do
     case conn.params do
       %{"goal_id" => goal_id} ->
         goal =
-          Auth.current_user(conn)
+          conn
+          |> Auth.current_user
           |> Goal.for_user
           |> Repo.get!(goal_id)
         assign(conn, :goal, goal)

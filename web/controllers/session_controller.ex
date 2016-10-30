@@ -1,6 +1,7 @@
 defmodule Steps.SessionController do
   use Steps.Web, :controller
   alias Steps.Auth
+  alias Guardian.Plug, as: GuardianPlug
 
   def new(conn, _) do
     render conn, "new.html"
@@ -10,7 +11,7 @@ defmodule Steps.SessionController do
     case Auth.check_username_and_pass(username, pass, repo: Repo) do
       {:ok, user} ->
         conn
-        |> Guardian.Plug.sign_in(user, :token)
+        |> GuardianPlug.sign_in(user, :token)
         |> put_flash(:info, "Welcome back!")
         |> redirect(to: page_path(conn, :index))
       {:error, _reason} ->
@@ -22,7 +23,7 @@ defmodule Steps.SessionController do
 
   def delete(conn, _) do
     conn
-    |> Guardian.Plug.sign_out
+    |> GuardianPlug.sign_out
     |> redirect(to: page_path(conn, :index))
   end
 end
