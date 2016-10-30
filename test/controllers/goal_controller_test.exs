@@ -1,6 +1,5 @@
 defmodule Steps.GoalControllerTest do
   use Steps.ConnCase
-  alias Plug.Conn
   alias Steps.Goal
 
   @valid_attrs %{name: "Write a novel",
@@ -123,13 +122,10 @@ defmodule Steps.GoalControllerTest do
     refute Repo.get_by(Goal, id: goal.id)
   end
 
-  @tag login_as: "anne"
-  test "authorizes actions against access by other users",
-       %{conn: conn, user: owner} do
-
-    goal = insert_goal(owner, @valid_attrs)
-    non_owner = insert_user(username: "sneaky")
-    conn = Conn.assign(conn, :current_user, non_owner)
+  @tag login_as: "sneaky"
+  test "authorizes actions against access by other users", %{conn: conn} do
+    owner = insert_user(username: "anne")
+    goal = insert_goal(owner)
 
     assert_error_sent :not_found, fn ->
       get(conn, goal_path(conn, :show, goal))

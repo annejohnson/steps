@@ -2,60 +2,42 @@ defmodule Steps.Auth do
   import Plug.Conn
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Phoenix.Controller
+
   alias Steps.Router.Helpers
   alias Steps.User
+  alias Guardian.Plug, as: GuardianPlug
 
-  def init(opts) do
-    Keyword.fetch!(opts, :repo)
+  def sign_in(conn, user) do
+    GuardianPlug.sign_in(conn, user, :token)
   end
 
-  def call(conn, repo) do
-    user_id = get_session(conn, :user_id)
-
-    cond do
-      conn.assigns[:current_user] ->
-        conn
-      user = user_id && repo.get(User, user_id) ->
-        assign(conn, :current_user, user)
-      true ->
-        assign(conn, :current_user, nil)
-    end
+  def sign_out(conn) do
+    GuardianPlug.sign_out(conn)
   end
 
-  def login(conn, user) do
-    conn
-    |> assign(:current_user, user)
-    |> put_session(:user_id, user.id)
-    |> configure_session(renew: true)
+  def current_user(conn) do
+    GuardianPlug.current_resource(conn)
   end
 
-  def login_by_username_and_pass(conn, username, given_pass, opts) do
+  def check_username_and_pass(username, given_pass, opts) do
     repo = Keyword.fetch!(opts, :repo)
     user = repo.get_by(User, username: username)
 
     cond do
       user && checkpw(given_pass, user.password_hash) ->
-        {:ok, login(conn, user)}
+        {:ok, user}
       user ->
-        {:error, :unauthorized, conn}
+        {:error, :unauthorized}
       true ->
         dummy_checkpw
-        {:error, :not_found, conn}
+        {:error, :not_found}
     end
   end
 
-  def authenticate_user(conn, _opts) do
-    if conn.assigns.current_user do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: Helpers.page_path(conn, :index))
-      |> halt
-    end
-  end
-
-  def logout(conn) do
-    configure_session(conn, drop: true)
+  def unauthenticated(conn, _opts) do
+    conn
+    |> put_flash(:error, "You must be logged in to access that page")
+    |> redirect(to: Helpers.page_path(conn, :index))
+    |> halt
   end
 end

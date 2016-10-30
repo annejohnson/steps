@@ -7,11 +7,20 @@ defmodule Steps.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Steps.Auth, repo: Steps.Repo
+
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :browser_user_authenticated do
+    plug Guardian.Plug.EnsureAuthenticated, handler: Steps.Auth
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.LoadResource
   end
 
   scope "/", Steps do
@@ -23,7 +32,7 @@ defmodule Steps.Router do
   end
 
   scope "/", Steps do
-    pipe_through [:browser, :authenticate_user]
+    pipe_through [:browser, :browser_user_authenticated]
 
     resources "/goals", GoalController do
       resources "/steps", StepController, except: [:index, :show]
