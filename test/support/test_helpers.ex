@@ -1,4 +1,5 @@
 defmodule Steps.TestHelpers do
+  alias Ecto.Date
   alias Steps.{Repo, User}
 
   def insert_user(attrs \\ %{}) do
@@ -29,6 +30,7 @@ defmodule Steps.TestHelpers do
       notes: "Ran 10 minutes outside.",
       date: {2016, 1, 10}
     }, attrs)
+    changes = %{changes | date: Date.cast!(changes.date)}
 
     goal
     |> Ecto.build_assoc(:steps, changes)

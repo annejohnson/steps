@@ -41,6 +41,31 @@ defmodule Steps.GoalControllerTest do
   end
 
   @tag login_as: "anne"
+  test "lists the goal's steps on show", %{conn: conn, user: user} do
+    goal = insert_goal(user, name: "Complete Phoenix app")
+    steps = [
+      insert_step(goal, date: {2015, 11, 2}, notes: "Step 1"),
+      insert_step(goal, date: {2016, 4, 10}, notes: "Step 2")
+    ]
+
+    other_goal = insert_goal(user, name: "Run more frequently")
+    other_goal_steps = [
+      insert_step(other_goal, date: {2015, 11, 2}, notes: "Step A"),
+      insert_step(other_goal, date: {2016, 4, 10}, notes: "Step B")
+    ]
+
+    conn = get conn, goal_path(conn, :show, goal)
+    assert html_response(conn, 200)
+
+    Enum.each(steps, fn step ->
+      assert String.contains?(conn.resp_body, step.notes)
+    end)
+    Enum.each(other_goal_steps, fn step ->
+      refute String.contains?(conn.resp_body, step.notes)
+    end)
+  end
+
+  @tag login_as: "anne"
   test "creates a goal and redirects", %{conn: conn, user: user} do
     conn = post conn, goal_path(conn, :create), goal: @valid_attrs
     new_goal = Repo.get_by!(Goal, @valid_attrs)
