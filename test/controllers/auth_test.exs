@@ -1,16 +1,7 @@
 defmodule Steps.AuthTest do
   use Steps.ConnCase
 
-  alias Steps.{Auth, Router}
-
-  setup %{conn: conn} do
-    conn =
-      conn
-      |> bypass_through(Router, :browser)
-      |> get("/")
-
-    {:ok, %{conn: conn}}
-  end
+  alias Steps.Auth
 
   test "check authorization with a valid username and pass", _ do
     insert_user(username: "anne", password: "mostsecret")
