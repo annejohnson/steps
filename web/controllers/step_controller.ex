@@ -1,7 +1,7 @@
 defmodule Steps.StepController do
   use Steps.Web, :controller
 
-  alias Steps.{Goal, Step}
+  alias Steps.{Auth, Goal, Step}
 
   plug :assign_goal
 
@@ -78,7 +78,7 @@ defmodule Steps.StepController do
     case conn.params do
       %{"goal_id" => goal_id} ->
         goal =
-          conn.assigns.current_user
+          Auth.current_user(conn)
           |> Goal.for_user
           |> Repo.get!(goal_id)
         assign(conn, :goal, goal)

@@ -1,8 +1,9 @@
 defmodule Steps.PageController do
   use Steps.Web, :controller
+  alias Steps.Auth
 
   def index(conn, _params) do
-    case conn.assigns.current_user do
+    case Auth.current_user(conn) do
       nil ->
         render conn, "index.html"
       _ ->

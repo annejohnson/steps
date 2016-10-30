@@ -22,7 +22,7 @@ defmodule Steps.SessionController do
 
   def delete(conn, _) do
     conn
-    |> Guardian.Plug.logout
+    |> Guardian.Plug.sign_out
     |> redirect(to: page_path(conn, :index))
   end
 end

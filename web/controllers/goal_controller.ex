@@ -1,12 +1,12 @@
 defmodule Steps.GoalController do
   use Steps.Web, :controller
 
-  alias Steps.Goal
+  alias Steps.{Auth, Goal}
 
   def action(conn, _) do
     apply(__MODULE__,
           action_name(conn),
-          [conn, conn.params, conn.assigns.current_user])
+          [conn, conn.params, Auth.current_user(conn)])
   end
 
   def index(conn, _params, user) do

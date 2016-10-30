@@ -5,6 +5,10 @@ defmodule Steps.Auth do
   alias Steps.Router.Helpers
   alias Steps.User
 
+  def current_user(conn) do
+    Guardian.Plug.current_resource(conn)
+  end
+
   def init(opts) do
     Keyword.fetch!(opts, :repo)
   end

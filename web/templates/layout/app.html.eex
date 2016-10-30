@@ -22,11 +22,11 @@
             <%= link "Steps", to: "/" %>
           </h1>
           <ul class="session-info">
-            <%= if @current_user do %>
-              <li><%= @current_user.username %></li>
+            <%= if Steps.Auth.current_user(@conn) do %>
+              <li><%= Steps.Auth.current_user(@conn).username %></li>
               <li>
                 <%= link "Log out",
-                         to: session_path(@conn, :delete, @current_user),
+                         to: session_path(@conn, :delete, Steps.Auth.current_user(@conn)),
                          method: "delete" %>
               </li>
             <% else %>
