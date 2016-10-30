@@ -7,6 +7,14 @@ defmodule Steps.Auth do
   alias Steps.User
   alias Guardian.Plug, as: GuardianPlug
 
+  def sign_in(conn, user) do
+    GuardianPlug.sign_in(conn, user, :token)
+  end
+
+  def sign_out(conn) do
+    GuardianPlug.sign_out(conn)
+  end
+
   def current_user(conn) do
     GuardianPlug.current_resource(conn)
   end

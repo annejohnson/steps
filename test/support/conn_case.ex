@@ -18,8 +18,7 @@ defmodule Steps.ConnCase do
   alias Phoenix.ConnTest
   alias Ecto.Adapters.SQL.Sandbox
   alias Plug.Conn
-  alias Guardian.Plug, as: GuardianPlug
-  alias Steps.{TestHelpers, Repo, Router}
+  alias Steps.{Auth, TestHelpers, Repo, Router}
 
   require Phoenix.ConnTest
 
@@ -59,7 +58,7 @@ defmodule Steps.ConnCase do
         conn
         |> ConnTest.bypass_through(Router, [:browser])
         |> ConnTest.get("/")
-        |> GuardianPlug.sign_in(user, :token)
+        |> Auth.sign_in(user)
         |> Conn.send_resp(200, "Flush the session")
         |> ConnTest.recycle
 

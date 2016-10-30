@@ -1,7 +1,6 @@
 defmodule Steps.UserController do
   use Steps.Web, :controller
-  alias Steps.User
-  alias Guardian.Plug, as: GuardianPlug
+  alias Steps.{Auth, User}
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -14,7 +13,7 @@ defmodule Steps.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Welcome, #{user.name}!")
-        |> GuardianPlug.sign_in(user, :token)
+        |> Auth.sign_in(user)
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
