@@ -79,7 +79,7 @@ defmodule Steps.GoalControllerTest do
        %{conn: conn} do
     count_before = goal_count(Goal)
     conn = post conn, goal_path(conn, :create), goal: @invalid_attrs
-    assert html_response(conn, 200) =~ "check the errors"
+    assert html_response(conn, 200) =~ "help-block"
     assert goal_count(Goal) == count_before
   end
 
