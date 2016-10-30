@@ -39,8 +39,14 @@ defmodule Steps.Router do
     end
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Steps do
-  #   pipe_through :api
-  # end
+  scope "/api", Steps.API do
+    pipe_through :api
+
+    scope "/v1", V1 do
+      resources "/sessions", SessionController, only: [:create]
+      resources "/users", UserController, only: [:create]
+      resources "/goals", GoalController, except: [:new, :edit]
+      resources "/steps", StepController, except: [:new, :edit]
+    end
+  end
 end
