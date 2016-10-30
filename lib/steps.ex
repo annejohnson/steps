@@ -1,5 +1,6 @@
 defmodule Steps do
   use Application
+  alias Steps.Endpoint
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -11,8 +12,10 @@ defmodule Steps do
       # Start the Ecto repository
       supervisor(Steps.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(Steps.Endpoint, []),
-      # Start your own worker by calling: Steps.Worker.start_link(arg1, arg2, arg3)
+      supervisor(Endpoint, []),
+      # Start your own worker by calling:
+      # Steps.Worker.start_link(arg1, arg2, arg3)
+      #
       # worker(Steps.Worker, [arg1, arg2, arg3]),
     ]
 
@@ -25,7 +28,7 @@ defmodule Steps do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    Steps.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end

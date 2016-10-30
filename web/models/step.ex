@@ -17,7 +17,10 @@ defmodule Steps.Step do
     struct
     |> cast(params, [:notes, :date])
     |> validate_required([:date])
-    |> unique_constraint(:date_goal_id, message: "Step already taken on this date.")
+    |> unique_constraint(
+         :date_goal_id,
+         message: "Step already taken on this date."
+       )
   end
 
   def for_goal(goal) do
