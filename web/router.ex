@@ -19,8 +19,12 @@ defmodule Steps.Router do
   pipeline :api do
     plug :accepts, ["json"]
 
-    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :api_user_authenticated do
+    plug Guardian.Plug.EnsureAuthenticated, handler: Steps.Auth.API
   end
 
   scope "/", Steps do
@@ -45,6 +49,11 @@ defmodule Steps.Router do
     scope "/v1", V1 do
       resources "/sessions", SessionController, only: [:create]
       resources "/users", UserController, only: [:create]
+    end
+
+    scope "/v1", V1 do
+      pipe_through :api_user_authenticated
+
       resources "/goals", GoalController, except: [:new, :edit]
       resources "/steps", StepController, except: [:new, :edit]
     end
