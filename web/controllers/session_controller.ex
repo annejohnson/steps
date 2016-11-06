@@ -1,6 +1,7 @@
 defmodule Steps.SessionController do
   use Steps.Web, :controller
   alias Steps.Auth
+  alias Steps.Auth.Browser, as: BrowserAuth
 
   def new(conn, _) do
     render conn, "new.html"
@@ -10,7 +11,7 @@ defmodule Steps.SessionController do
     case Auth.check_username_and_pass(username, pass, repo: Repo) do
       {:ok, user} ->
         conn
-        |> Auth.sign_in(user)
+        |> BrowserAuth.sign_in(user)
         |> put_flash(:info, "Welcome back!")
         |> redirect(to: page_path(conn, :index))
       {:error, _reason} ->
@@ -22,7 +23,7 @@ defmodule Steps.SessionController do
 
   def delete(conn, _) do
     conn
-    |> Auth.sign_out
+    |> BrowserAuth.sign_out
     |> redirect(to: page_path(conn, :index))
   end
 end

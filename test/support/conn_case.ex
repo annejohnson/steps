@@ -18,7 +18,8 @@ defmodule Steps.ConnCase do
   alias Phoenix.ConnTest
   alias Ecto.Adapters.SQL.Sandbox
   alias Plug.Conn
-  alias Steps.{Auth, TestHelpers, Repo, Router}
+  alias Steps.{TestHelpers, Repo, Router}
+  alias Steps.Auth.Browser, as: BrowserAuth
 
   require Phoenix.ConnTest
 
@@ -58,7 +59,7 @@ defmodule Steps.ConnCase do
         conn
         |> ConnTest.bypass_through(Router, [:browser])
         |> ConnTest.get("/")
-        |> Auth.sign_in(user)
+        |> BrowserAuth.sign_in(user)
         |> Conn.send_resp(200, "Flush the session")
         |> ConnTest.recycle
 

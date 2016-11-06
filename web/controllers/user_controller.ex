@@ -1,6 +1,7 @@
 defmodule Steps.UserController do
   use Steps.Web, :controller
-  alias Steps.{Auth, User}
+  alias Steps.User
+  alias Steps.Auth.Browser, as: BrowserAuth
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -13,7 +14,7 @@ defmodule Steps.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Welcome, #{user.name}!")
-        |> Auth.sign_in(user)
+        |> BrowserAuth.sign_in(user)
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)

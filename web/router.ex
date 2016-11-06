@@ -13,7 +13,7 @@ defmodule Steps.Router do
   end
 
   pipeline :browser_user_authenticated do
-    plug Guardian.Plug.EnsureAuthenticated, handler: Steps.Auth
+    plug Guardian.Plug.EnsureAuthenticated, handler: Steps.Auth.Browser
   end
 
   pipeline :api do

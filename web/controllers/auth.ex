@@ -3,17 +3,8 @@ defmodule Steps.Auth do
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Phoenix.Controller
 
-  alias Steps.Router.Helpers
   alias Steps.User
   alias Guardian.Plug, as: GuardianPlug
-
-  def sign_in(conn, user) do
-    GuardianPlug.sign_in(conn, user, :token)
-  end
-
-  def sign_out(conn) do
-    GuardianPlug.sign_out(conn)
-  end
 
   def current_user(conn) do
     GuardianPlug.current_resource(conn)
@@ -32,12 +23,5 @@ defmodule Steps.Auth do
         dummy_checkpw
         {:error, :not_found}
     end
-  end
-
-  def unauthenticated(conn, _opts) do
-    conn
-    |> put_flash(:error, "You must be logged in to access that page")
-    |> redirect(to: Helpers.page_path(conn, :index))
-    |> halt
   end
 end
