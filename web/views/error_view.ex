@@ -10,7 +10,7 @@ defmodule Steps.ErrorView do
   end
 
   def render("error.json", %{message: message}) do
-    %{error: %{message: message}}
+    %{error_message: message}
   end
 
   # In case no render clause matches or no

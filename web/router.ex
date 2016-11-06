@@ -43,15 +43,15 @@ defmodule Steps.Router do
     end
   end
 
-  scope "/api", Steps.API do
+  scope "/api", Steps.API, as: :api do
     pipe_through :api
 
-    scope "/v1", V1 do
+    scope "/v1", V1, as: :v1 do
       resources "/sessions", SessionController, only: [:create]
       resources "/users", UserController, only: [:create]
     end
 
-    scope "/v1", V1 do
+    scope "/v1", V1, as: :v1 do
       pipe_through :api_user_authenticated
 
       resources "/goals", GoalController, except: [:new, :edit]
