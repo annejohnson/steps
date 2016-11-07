@@ -51,21 +51,34 @@ defmodule Steps.ConnCase do
       Sandbox.mode(Repo, {:shared, self()})
     end
 
-    conn = ConnTest.build_conn()
+    conn = ConnTest.build_conn
 
-    if username = tags[:login_as] do
-      user = TestHelpers.insert_user(username: username)
-      conn =
-        conn
-        |> ConnTest.bypass_through(Router, [:browser])
-        |> ConnTest.get("/")
-        |> BrowserAuth.sign_in(user)
-        |> Conn.send_resp(200, "Flush the session")
-        |> ConnTest.recycle
+    cond do
+      username = tags[:login_as] ->
+        user = TestHelpers.insert_user(username: username)
 
-      {:ok, conn: conn, user: user}
-    else
-      {:ok, conn: conn}
+        conn =
+          conn
+          |> ConnTest.bypass_through(Router, [:browser])
+          |> ConnTest.get("/")
+          |> BrowserAuth.sign_in(user)
+          |> Conn.send_resp(200, "Flush the session")
+          |> ConnTest.recycle
+
+        {:ok, conn: conn, user: user}
+
+      username = tags[:api_auth_as] ->
+        user = TestHelpers.insert_user(username: username)
+        {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
+
+        conn =
+          conn
+          |> Conn.put_req_header("authorization", "Bearer #{jwt}")
+
+        {:ok, conn: conn, user: user}
+
+      true ->
+        {:ok, conn: conn}
     end
   end
 end
