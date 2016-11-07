@@ -16,12 +16,12 @@ defmodule Steps.API.V1.SessionController do
         new_conn
         |> put_resp_header("authorization", "Bearer #{jwt}")
         |> put_resp_header("x-expires", to_string(exp))
-        |> render("session.json", %{user: user, jwt: jwt, exp: exp})
+        |> render("show.json", %{user: user, jwt: jwt, exp: exp})
       {:error, _reason} ->
         conn
         |> put_status(401)
         |> put_view(Steps.ErrorView)
-        |> render("error.json", %{message: "Unable to authenticate"})
+        |> render("error.json", %{message: "Unable to authenticate user"})
     end
   end
 end

@@ -3,8 +3,11 @@ defmodule Steps.API.V1.UserView do
 
   @attributes ~w(id username name)a
 
-  def render("user.json", user) do
-    user
-    |> Map.take(@attributes)
+  def render("user.json", %{user: user}) do
+    %{
+      type: "users",
+      id: user.id,
+      attributes: Map.take(user, @attributes)
+    }
   end
 end

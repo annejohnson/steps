@@ -10,7 +10,13 @@ defmodule Steps.ErrorView do
   end
 
   def render("error.json", %{message: message}) do
-    %{error_message: message}
+    render("errors.json", %{messages: [message]})
+  end
+
+  def render("errors.json", %{messages: messages}) do
+    %{
+      errors: Enum.map(messages, &%{detail: &1})
+    }
   end
 
   # In case no render clause matches or no

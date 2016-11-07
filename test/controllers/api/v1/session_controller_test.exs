@@ -3,7 +3,9 @@ defmodule Steps.API.V1.SessionControllerTest do
 
   test "returns a JWT and user info for valid login credentials",
        %{conn: conn} do
-    insert_user(username: "anne", password: "unicorn")
+    password = "unicorn"
+    %{id: user_id, username: username} =
+      insert_user(username: "anne", password: password)
 
     new_conn =
       post(
@@ -11,15 +13,26 @@ defmodule Steps.API.V1.SessionControllerTest do
         api_v1_session_path(
           conn,
           :create,
-          %{username: "anne", password: "unicorn"}
+          %{username: username, password: password}
         )
       )
 
     assert(
       %{
-        "user" => %{"username" => "anne"},
-        "jwt" => _jwt,
-        "exp" => _exp
+        "data" => %{
+          "type" => "sessions",
+          "attributes" => %{
+            "jwt" => _jwt,
+            "exp" => _exp
+          },
+          "relationships" => %{
+            "user" => %{
+              "type" => "users",
+              "id" => ^user_id,
+              "attributes" => %{"username" => ^username}
+            }
+          }
+        }
       } = json_response(new_conn, 200)
     )
   end
@@ -41,9 +54,14 @@ defmodule Steps.API.V1.SessionControllerTest do
 
     response = json_response(new_conn, 401)
 
-    assert(Dict.has_key?(response, "error_message"))
+    refute(Dict.has_key?(response, "data"))
 
-    refute(Dict.has_key?(response, "jwt"))
-    refute(Dict.has_key?(response, "user"))
+    assert(%{
+      "errors" => [
+        %{
+          "detail" => "Unable to authenticate user"
+        }
+      ]
+    } = response)
   end
 end
